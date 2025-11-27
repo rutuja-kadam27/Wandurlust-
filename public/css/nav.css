@@ -1,0 +1,6 @@
+/* Problematic examples */
+.collapse { display: block !important; }
+.navbar-collapse { display: none !important; }
+@media (max-width: 768px) {
+  .navbar-collapse { display: none !important; }
+}

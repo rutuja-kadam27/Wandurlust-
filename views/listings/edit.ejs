@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- layout('layouts/boilerplate') %>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Listing | Wanderlust</title>
+    <style>
+      body {
+        font-family: 'Segoe UI', sans-serif;
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 1.5rem;
+        color: #333;
+      }
+
+      h3 {
+        text-align: center;
+        color: #080001;
+        margin-bottom: 1.5rem;
+      }
+
+      form {
+        max-width: 520px;
+        margin: auto;
+        background-color: #ffffff;
+        padding: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+      }
+
+      input[type="text"],
+      input[type="number"],
+      textarea {
+        width: 100%;
+        padding: 10px 14px;
+        margin-bottom: 14px;
+        border: 1px solid #ced4da;
+        border-radius: 6px;
+        font-size: 0.95rem;
+      }
+
+      textarea {
+        resize: vertical;
+        min-height: 90px;
+      }
+
+      button {
+        width: 100%;
+        padding: 10px;
+        background-color: #fe424d;
+        color: white;
+        font-size: 1rem;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.25s ease;
+      }
+
+      button:hover {
+        background-color: #d13842;
+      }
+
+      label {
+        font-weight: 500;
+        display: block;
+        margin-bottom: 4px;
+      }
+
+      img {
+        display: block;
+        max-width: 100%;
+        max-height: 200px;
+        border-radius: 8px;
+        margin: 10px 0;
+        object-fit: contain;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h3>Edit your Listing</h3>
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+        <form 
+          method="POST" 
+          action="/listings/<%= listing && listing._id ? listing._id : '' %>?_method=PUT" 
+          enctype="multipart/form-data"
+          novalidate
+          class="needs-validation"
+        >
+          <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input
+              name="listing[title]"
+              value="<%= listing && listing.title ? listing.title : '' %>"
+              type="text"
+              class="form-control"
+              required
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea
+              name="listing[description]"
+              class="form-control"
+              rows="4"
+              required
+            ><%= listing && listing.description ? listing.description : '' %></textarea>
+          </div>
+
+         <!-- Current Image Preview -->
+<div class="mb-3">
+  <label class="form-label">Current Image</label>
+  <img 
+    src="<%= originalImageUrl %>" 
+    alt="Listing image"
+    class="img-fluid rounded"
+  />
+</div>
+
+<!-- File input for new image -->
+<div class="mb-3">
+  <label for="image" class="form-label">Upload New Image</label>
+  <input type="file" id="image" name="image" class="form-control" />
+</div>
+
+         
+
+          <div class="row">
+            <div class="mb-3 col-md-4">
+              <label for="price" class="form-label">Price</label>
+              <input
+                name="listing[price]"
+                value="<%= listing && listing.price ? listing.price : '' %>"
+                type="number"
+                class="form-control"
+                required
+              />
+            </div>
+
+            <div class="mb-3 col-md-8">
+              <label for="country" class="form-label">Country</label>
+              <input
+                name="listing[country]"
+                value="<%= listing && listing.country ? listing.country : '' %>"
+                type="text"
+                class="form-control"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="location" class="form-label">Location</label>
+            <input
+              name="listing[location]"
+              value="<%= listing && listing.location ? listing.location : '' %>"
+              type="text"
+              class="form-control"
+              required
+            />
+          </div>
+
+          <button type="submit">Save Changes</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

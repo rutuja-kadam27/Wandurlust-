@@ -1,0 +1,52 @@
+/* .footer h5 {
+  font-weight: bold;
+  color: #f8f9fa;
+}
+
+.footer a:hover {
+  color: #0dcaf0 !important;
+  text-decoration: underline;
+}
+
+.footer i :hover{
+  font-size: 1.3rem;
+} */
+/* Add this to your style.css */
+.footer-gradient {
+  background: linear-gradient(135deg, #ebd404, #fd0606); /* dark blue to sky blue */
+  color: #f1f1f1;
+}
+
+.footer-gradient a {
+  color: #f1f1f1;
+  text-decoration: none;
+}
+
+.footer-gradient a:hover {
+  color: #ffd700; /* gold hover */
+}
+.mini-footer {
+  font-size: 0.85rem;
+}
+
+.mini-footer h6 {
+  font-size: 0.95rem;
+  margin-bottom: 0.4rem;
+}
+
+.mini-footer p,
+.mini-footer li,
+.mini-footer a,
+.mini-footer small {
+  line-height: 1.4;
+}
+
+.mini-footer .bi {
+  font-size: 1rem;
+}
+.add-btn
+{
+  background-color: #fe424d !important;
+  border: none !important;
+}
+

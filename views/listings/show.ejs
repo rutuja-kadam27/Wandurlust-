@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- layout('layouts/boilerplate') %>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title><%= listing.title %> | Wanderlust</title>
+
+  <style>
+    /* 🌄 Responsive image styling */
+    .listing-img {
+      width: 100%;
+      height: auto;
+      max-height: 420px;
+      border-radius: 16px;
+      object-fit: contain;   /* ✅ Shows full image without cropping */
+      display: block;
+      margin: 0 auto;
+      background-color: #f8f9fa;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .card {
+      max-width: 800px;
+      margin: 30px auto;
+      border: none;
+      background-color: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-body {
+      padding: 20px;
+    }
+
+    h3 {
+      text-align: center;
+      margin: 20px 0;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .listing-info p {
+      margin: 6px 0;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .btn-edit {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .btn-edit:hover {
+      background-color: #0056b3;
+    }
+
+    .btn-delete {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    .btn-delete:hover {
+      background-color: #a71d2a;
+    }
+
+    .reviews {
+      margin-top: 40px;
+    }
+
+    .review-card {
+      background: #f8f9fa;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    .review-card h6 {
+      margin-bottom: 6px;
+      color: #007bff;
+      font-weight: 600;
+    }
+
+    .review-card p {
+      margin-bottom: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h3><%= listing.title %></h3>
+
+    <div class="card">
+      <!-- 🖼 Image perfectly fitted -->
+      <img src="<%= listing.image.url %>" alt="Listing Image" class="listing-img"/>
+
+      <div class="card-body">
+        <div class="listing-info">
+          <p>Owned By <i><%= listing.owner.username %></i></p>
+          <p><strong>Description:</strong> <%= listing.description %></p>
+          <p><strong>Price:</strong> ₹ <%= listing.price.toLocaleString("en-IN") %>/night</p>
+          <p><strong>Location:</strong> <%= listing.location %></p>
+          <p><strong>Country:</strong> <%= listing.country %></p>
+        </div>
+
+        <% if(currUser && listing.owner._id.equals(currUser._id)) { %>
+          <div class="actions">
+            <a href="/listings/<%= listing._id %>/edit" class="btn btn-edit">Edit</a>
+            <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE">
+              <button type="submit" class="btn btn-delete">Delete</button>
+            </form>
+          </div>
+        <% } %>
+      </div>
+    </div>
+
+    <!-- ✍️ Reviews Section -->
+    <div class="reviews col-8 mb-3 mt-4">
+      <hr/>
+      <% if(currUser) { %>
+        <h4>Leave A Review</h4>
+        <form action="/listings/<%= listing.id %>/reviews" method="POST" novalidate class="needs-validation">
+          <div class="mb-3 mt-3">
+            <label for="rating" class="form-label">Rating</label>
+            <input type="range" min="1" max="5" id="rating" name="review[rating]" class="form-range">
+          </div>
+          <div class="mb-3 mt-3">
+            <label for="comment" class="form-label">Comment</label>
+            <textarea name="review[comment]" id="comment" cols="30" rows="5" class="form-control" required></textarea>
+            <div class="invalid-feedback">Please add some comments for review</div>
+          </div>
+          <button class="btn btn-outline-dark">Submit</button>
+        </form>
+      <% } %>
+
+      <hr/>
+
+      <h4 class="mt-4 mb-3">All Reviews</h4>
+      <% if (listing.reviews.length === 0) { %>
+        <p class="text-muted">No reviews yet. Be the first to leave one!</p>
+      <% } else { %>
+        <% for (let review of listing.reviews) { %>
+          <div class="review-card">
+            <h6>👤 <%= review.author.username || "Anonymous" %></h6>
+            <p>⭐ <%= review.rating %> / 5</p>
+            <p><%= review.comment %></p>
+            <form method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
+              <button class="btn btn-sm btn-outline-danger">Delete</button>
+            </form>
+          </div>
+        <% } %>
+      <% } %>
+    </div>
+  </div>
+</body>
+</html>
