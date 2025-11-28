@@ -47,7 +47,7 @@ Wanderlust is a full-stack web application inspired by Airbnb. It allows users t
     
 
 5.  *Access the app:*
-    Open your browser and go to http://localhost:3000/listings
+    Open your browser and go to http://localhost:8080/listings
 
 ## 📂 Project Structure
 
